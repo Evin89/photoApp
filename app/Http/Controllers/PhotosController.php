@@ -10,4 +10,9 @@ class PhotosController extends Controller
     {
         return view('photos.index');
     }
+
+    public function create()
+    {
+        return view('photos.post');
+    }
 }

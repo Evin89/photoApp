@@ -23,15 +23,17 @@ Route::get('/', function () {
 });
 
 // photos routes
-Route::get('/photos', [PhotosController::class, 'index']);
+Route::get('/photos',
+    [PhotosController::class, 'index' ])->name('photos');
+Route::get('photos/create', [PhotosController::class, 'create'])->name('photos');
 
 // photo routes
-Route::post('/photo', [PhotoController::class, 'create']);
-Route::get('/photo/{id}',
-    [PhotoController::class, 'show'])->where('id', '[0-9]+');
-Route::get('/photo/{id}/edit', [PhotoController::class, 'edit']);
-Route::post('/photo/{id}', [PhotoController::class, 'update']);
-Route::delete('/photo/{id}', [PhotoController::class, 'delete']);
+// Route::post('/photo', [PhotoController::class, 'create']);
+// Route::get('/photo/{id}',
+//     [PhotoController::class, 'show'])->where('id', '[0-9]+');
+// Route::get('/photo/{id}/edit', [PhotoController::class, 'edit']);
+// Route::post('/photo/{id}', [PhotoController::class, 'update']);
+// Route::delete('/photo/{id}', [PhotoController::class, 'delete']);
 
 // comment routes
 Route::post('/comment', [CommentController::class, 'create']);

@@ -1,17 +1,61 @@
-
 @extends('layouts.app')
+
 @section('content')
-    <p>This is my body content.</p>
-    <h1>Photos</h1>
-    <ul>
-        <li><a href="photo/1">Photo 1</a></li>
-        <li><a href="photo/2">Photo 2</a></li>
-        <li><a href="photo/3">Photo 3</a></li>
-        <li><a href="photo/4">Photo 4</a></li>
-        <li><a href="photo/5">Photo 5</a></li>
-        <li><a href="photo/6">Photo 6</a></li>
+<!-- Gallery -->
+<div class="row">
 
-    </ul>
-@endsection
+    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+        <a href="photos/1">
+            <img
+        src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
+        class="w-100 shadow-1-strong rounded mb-4"
+        alt=""/>
+    </a>
 
-</html>
+    <a href="photos/2">
+      <img
+        src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg"
+        class="w-100 shadow-1-strong rounded mb-4"
+        alt=""
+      />
+    </a>
+    </div>
+
+    <div class="col-lg-4 mb-4 mb-lg-0">
+        <a href="photos/3">
+      <img
+        src="https://mdbootstrap.com/img/Photos/Vertical/mountain2.jpg"
+        class="w-100 shadow-1-strong rounded mb-4"
+        alt=""
+      />
+    </a>
+
+      <a href="photos/4">
+      <img
+        src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
+        class="w-100 shadow-1-strong rounded mb-4"
+        alt=""
+      />
+    </a>
+    </div>
+
+    <div class="col-lg-4 mb-4 mb-lg-0">
+        <a href="photos/5">
+      <img
+        src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg"
+        class="w-100 shadow-1-strong rounded mb-4"
+        alt=""
+      />
+    </a>
+
+      <a href="photos/6">
+      <img
+        src="https://mdbootstrap.com/img/Photos/Vertical/mountain3.jpg"
+        class="w-100 shadow-1-strong rounded mb-4"
+        alt=""
+      />
+    </a>
+    </div>
+  </div>
+  <!-- Gallery -->
+  @endsection
