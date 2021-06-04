@@ -22,10 +22,27 @@ Route::get('/', function () {
     return view('home');
 });
 
+// Possible methods
+// Route::get($uri, $callback);
+// Route::post($uri, $callback);
+// Route::put($uri, $callback);
+// Route::patch($uri, $callback);
+// Route::delete($uri, $callback);
+// Route::options($uri, $callback);
+
 // photos routes
 Route::get('/photos',
     [PhotosController::class, 'index' ])->name('photos');
-Route::get('photos/create', [PhotosController::class, 'create'])->name('photos');
+Route::get('photos/{id}',
+    [PhotosController::class, 'show'])->name('photos');
+Route::get('photos/create',
+    [PhotosController::class, 'create'])->name('photos');
+Route::get('photos/post',
+    [PhotosController::class, 'post'])->name('photos');
+Route::get('photos/{id}/edit',
+    [PhotosController::class, 'edit'])->name('photos');
+Route::get('photos/{id}/delete',
+    [Photoscontroller::class, 'delete'])->name('photos');
 
 // photo routes
 // Route::post('/photo', [PhotoController::class, 'create']);
@@ -51,3 +68,7 @@ require __DIR__.'/auth.php';
 // user routes
 Route::get('/user/{id}', function(){return view('user.index');});
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

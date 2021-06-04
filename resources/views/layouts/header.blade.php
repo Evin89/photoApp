@@ -15,14 +15,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarExample01">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item active">
-            <a class="nav-link" aria-current="page" href="#">Home</a>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/" class="">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Photos</a>
+            <a class="nav-link {{ request()->is('photos/*') ? 'active' : '' }}" href="/photos">Photos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Users</a>
+            <a class="nav-link {{ request()->is('users/*') ? 'active' : '' }}" href="/users">Users</a>
           </li>
         </ul>
       </div>
