@@ -31,44 +31,25 @@ Route::get('/', function () {
 // Route::options($uri, $callback);
 
 // photos routes
-Route::get('/photos',
-    [PhotosController::class, 'index' ])->name('photos');
-Route::get('photos/{id}',
-    [PhotosController::class, 'show'])->name('photos');
-Route::get('photos/create',
-    [PhotosController::class, 'create'])->name('photos');
-Route::get('photos/post',
-    [PhotosController::class, 'post'])->name('photos');
-Route::get('photos/{id}/edit',
-    [PhotosController::class, 'edit'])->name('photos');
-Route::get('photos/{id}/delete',
-    [Photoscontroller::class, 'delete'])->name('photos');
+Route::resource('/photos', PhotosController::class);
 
-// photo routes
-// Route::post('/photo', [PhotoController::class, 'create']);
-// Route::get('/photo/{id}',
-//     [PhotoController::class, 'show'])->where('id', '[0-9]+');
-// Route::get('/photo/{id}/edit', [PhotoController::class, 'edit']);
-// Route::post('/photo/{id}', [PhotoController::class, 'update']);
-// Route::delete('/photo/{id}', [PhotoController::class, 'delete']);
+// // comment routes
+// Route::post('/comment', [CommentController::class, 'create']);
+// Route::get('/comment/{id}', [ComCommentController::class, 'show']);
+// Route::get('/comment/{id}/edit', [CommentController::class, 'edit']);
+// Route::post('/comment/{id}', [CommentController::class, 'update']);
+// Route::delete('/comment/{id}', [CommentController::class, 'delete']);
 
-// comment routes
-Route::post('/comment', [CommentController::class, 'create']);
-Route::get('/comment/{id}', [ComCommentController::class, 'show']);
-Route::get('/comment/{id}/edit', [CommentController::class, 'edit']);
-Route::post('/comment/{id}', [CommentController::class, 'update']);
-Route::delete('/comment/{id}', [CommentController::class, 'delete']);
+// Route::get('/dashboard', function () { return view('dashboard');})->middleware(['auth'])->name('dashboard');
+// require __DIR__.'/auth.php';
 
-Route::get('/dashboard', function () { return view('dashboard');})->middleware(['auth'])->name('dashboard');
-require __DIR__.'/auth.php';
+// // users routes
+// // Route::get('/users', function(){ return view('users.index'); });
 
-// users routes
-// Route::get('/users', function(){ return view('users.index'); });
-
-// user routes
-Route::get('/user/{id}', function(){return view('user.index');});
+// // user routes
+// Route::get('/user/{id}', function(){return view('user.index');});
 
 
-Auth::routes();
+// // Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

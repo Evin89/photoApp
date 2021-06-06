@@ -4,35 +4,34 @@
     <div class="m-auto w-4/8 py-24">
         <div class="text-center">
             <h1 class="text-5xl uppercase bold">
-                Edit photo
+                Add photo
             </h1>
         </div>
     </div>
 
         <div class="flex justify-center pt-20">
 
-            <form action="/photos/{{ $photo->id }}"
+            <form action="/photos"
                 class="block" method="POST">
                 @csrf
-                @method('PUT')
 
                 <input type="text"
                     class="block shadow-5xl mb-10 py-2 w-80 italic"
                     name="title"
                     id="title"
-                    value="{{ $photo->title }}">
+                    placeholder="Title...">
 
                 <input type="text"
                     class="block shadow-5xl mb-10 py-2 w-80 italic"
                     name="userName"
                     id="userName"
-                    value="{{ $photo->userName }}">
+                    placeholder="User...">
 
                 <input type="text"
                     class="block shadow-5xl mb-10 py-2 w-80 italic"
                     name="description"
                     id="description"
-                    value="{{ $photo->description }}">
+                    placeholder="Description...">
 
                 <button type="submit" class="bg-green-500 block shadow-5xl mb-10 p-2 w-80 uppercase font-bold">
                     Submit

@@ -14,10 +14,22 @@ class CreatePhotosTable extends Migration
     public function up()
     {
         Schema::create('photos', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('title');
+            $table->string('userName');
             $table->mediumText('description');
             $table->timestamps();
+        });
+
+        Schema::create('comments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('photo_id');
+            $table->mediumText('body');
+            $table->timestamps();
+            $table->foreign('photo_id')
+                ->references('id')
+                ->on('photos')
+                ->onDelete('cascade');
         });
     }
 

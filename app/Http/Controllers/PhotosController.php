@@ -3,74 +3,112 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Photo;
+use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Php;
 
 class PhotosController extends Controller
 {
-
-    // READ
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $photos = DB::select('select * from photos');
+        $photos = Photo::all()->toJson();
+        $photos = json_decode($photos);
 
-        dd($photos);
+        return view('photos.index', [
+            'photos' => $photos
+        ]);
     }
 
-    public function show($id)
-    {
-        $photos = DB::table('photos')
-            ->where('id', $id)
-            ->get();
-
-        dd($photos);
-    }
-
-    // CREATE
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('photos.create');
     }
 
-    public function post()
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        $posts = DB::table('photos')
-            ->insert([
-                'title' => 'New photo',
-                'description' => 'New description'
-            ]);
+        $photo = Photo::create([
+            'title' => $request->input('title'),
+            'userName' => $request->input('userName'),
+            'description' => $request->input('description')
+        ]);
 
-        dd($posts);
+        return redirect('/photos');
     }
 
-    // UPDATE
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+
+        $photo = Photo::find($id);
+
+        return view('photos.show')->with('photo', $photo);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-       $posts = DB::table('photos')
-            ->where('id', '=', $id)
-            ->get();
 
-         return view('photos.edit',
-        ['photos' => $data[$id] ?? 'Photo with id '. $id . ' does not exist']);
+        $photo = Photo::find($id)->first();
 
-        // dd($posts);
+        return view('photos.edit')->with('photo', $photo);
     }
 
-    public function update($id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
-        $posts = DB::table('photos')
-        ->where('id', '=', $id)
-        ->update([
-            'title' => 'Updated Title', 'description' => 'Updated description'
+        $photo = Photo::where('id', $id)->update([
+            'title' => $request->input('title'),
+            'userName' => $request->input('userName'),
+            'description' => $request->input('description')
         ]);
+
+        return redirect('/photos');
     }
 
-    // DELETE
-    public function delete($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-        $posts = DB::table('photos')
-            ->where('id', '=', $id)
-            ->delete();
+        $photo = Photo::find($id)->first();
+
+        $photo->delete();
+
+        return redirect('/photos');
+
     }
-
-
 }

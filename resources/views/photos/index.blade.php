@@ -1,61 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Gallery -->
-<div class="row">
 
-    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-        <a href="photos/1">
-            <img
-        src="{{ asset('https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg') }}"
-        class="w-100 shadow-1-strong rounded mb-4"
-        alt=""/>
-    </a>
-
-    <a href="photos/2">
-      <img
-        src="{{ asset('https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg') }}"
-        class="w-100 shadow-1-strong rounded mb-4"
-        alt=""
-      />
-    </a>
+<div class="m-auto w-4/5 py-24">
+    <div class="text-center">
+        <h1 class="text-5xl uppercase bold">Photos</h1>
     </div>
 
-    <div class="col-lg-4 mb-4 mb-lg-0">
-        <a href="photos/3">
-      <img
-        src="{{ asset('https://mdbootstrap.com/img/Photos/Vertical/mountain2.jpg') }}"
-        class="w-100 shadow-1-strong rounded mb-4"
-        alt=""
-      />
-    </a>
-
-      <a href="photos/4">
-      <img
-        src="{{ asset('https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg') }}"
-        class="w-100 shadow-1-strong rounded mb-4"
-        alt=""
-      />
-    </a>
+    <div class="pt-10">
+        <a href="/photos/create"
+        class="border-b-2 pb-2 border-dotted italic text-gray-500">
+    Add a new photo &rarr;</a>
     </div>
 
-    <div class="col-lg-4 mb-4 mb-lg-0">
-        <a href="photos/5">
-      <img
-        src="{{ asset('https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg') }}"
-        class="w-100 shadow-1-strong rounded mb-4"
-        alt=""
-      />
-    </a>
+    @foreach ($photos as $photo)
+    <div class="w-5/6  py-10">
+        <div class="m-auto">
+            <div class="float-right">
+                <a
+                    class="border-b-2 pb-2 border-dotted italic text-gray-500"
+                    href="photos/{{ $photo->id }}/edit">Edit &rarr;</a>
 
-      <a href="photos/6">
-      <img
-        src="{{ asset('https://mdbootstrap.com/img/Photos/Vertical/mountain3.jpg') }}"
-        class="w-100 shadow-1-strong rounded mb-4"
-        alt=""
-      />
-    </a>
+                    <form action="/photos/{{ $photo->id }}" method="POST">
+                        @csrf
+                        @method("DELETE")
+                        <button type="submit" class="border-b-2 pb-2 border-dotted italic text-red-500">
+                            Delete &rarr;
+                        </button>
+                    </form>
+            </div>
+
+            <span class="uppercase text-blue-700 font-bold text-xs italic">
+                User: {{ $photo->userName }}
+            </span>
+
+            <h2 class="text-grey-700 text-5xl hover:text-gray-500">
+                <a href="/photos/{{ $photo->id }}">
+                    {{ $photo->title }}
+                </a>
+            </h2>
+
+            <p class="text-lg text-grey-700 py-6">
+               {{ $photo->description }}
+            </p>
+
+            <hr class="mt-4 mb-8">
+        </div>
     </div>
-  </div>
-  <!-- Gallery -->
-  @endsection
+    @endforeach
+
+</div>
+
+@endsection

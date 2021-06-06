@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+
+    protected $table = 'comments';
+
+    protected $primaryKey = "id";
+
+    // Comment belongs to a photo
+    public function photo()
+    {
+        return $this->belongsTo(Photo::class);
+    }
 }
