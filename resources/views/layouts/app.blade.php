@@ -16,9 +16,16 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-r from-gray-100 to-gray-200">
+<body class="bg-gradient-to-r from-gray-100 to-gray-200 min-h">
 
- @yield('content')
+    @include('layouts.header')
 
+    <main class="flex-grow">
+
+        @yield('content')
+
+    </main>
+
+    @include('layouts.footer')
 </body>
 </html>
