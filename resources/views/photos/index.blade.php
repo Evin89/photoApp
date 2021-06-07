@@ -34,11 +34,11 @@
                 User: {{ $photo->userName }}
             </span>
 
-            <h2 class="text-grey-700 text-5xl hover:text-gray-500">
+            {{-- <h2 class="text-grey-700 text-5xl hover:text-gray-500"> --}}
                 <a href="/photos/{{ $photo->id }}">
-                    {{ $photo->title }}
+                    <img src="/images/{{ $photo->image_path }}" alt="">
                 </a>
-            </h2>
+            {{-- </h2> --}}
 
             <p class="text-lg text-grey-700 py-6">
                {{ $photo->description }}

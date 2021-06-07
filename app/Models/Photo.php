@@ -13,7 +13,7 @@ class Photo extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['title', 'userName', 'description'];
+    protected $fillable = ['title', 'userName', 'description', 'image_path'];
 
     protected $hidden = [];
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Photo;
-use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Php;
+use App\Http\Requests\CreateValidationRequest;
 
 class PhotosController extends Controller
 {
@@ -41,10 +41,25 @@ class PhotosController extends Controller
      */
     public function store(Request $request)
     {
+
+        // $request->validated();
+
+        $request->validate([
+            'title' => 'required|string|unique:photos',
+            'userName' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'required|mimes:png,jpg,jpeg|max:5048'
+        ]);
+
+        $newImageName = time() .  '-' . $request->title . '-' . $request->image->extension();
+
+        $request->image->move(public_path('images'), $newImageName);
+
         $photo = Photo::create([
             'title' => $request->input('title'),
             'userName' => $request->input('userName'),
-            'description' => $request->input('description')
+            'description' => $request->input('description'),
+            'image_path' => $newImageName
         ]);
 
         return redirect('/photos');
@@ -75,7 +90,7 @@ class PhotosController extends Controller
 
         $photo = Photo::find($id)->first();
 
-        return view('photos.edit')->with('photo', $photo);
+        return view('/photos.edit')->with('photo', $photo);
     }
 
     /**
@@ -85,9 +100,11 @@ class PhotosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateValidationRequest $request, $id)
     {
-        $photo = Photo::where('id', $id)->update([
+        $request->validated();
+
+        Photo::where('id', $id)->update([
             'title' => $request->input('title'),
             'userName' => $request->input('userName'),
             'description' => $request->input('description')
