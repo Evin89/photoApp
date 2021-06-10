@@ -10,7 +10,7 @@
         <div class="m-auto">
 
             <span class="uppercase text-blue-700 font-bold text-xs italic">
-                User: {{ $photo->userName }}
+                User: {{ $photo->user->name }}
             </span>
 
             <h2 class="text-grey-700 text-5xl">

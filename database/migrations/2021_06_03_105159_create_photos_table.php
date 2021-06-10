@@ -16,20 +16,18 @@ class CreatePhotosTable extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('userName');
             $table->mediumText('description');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('photo_id');
+            $table->integer('photo_id')->unsigned();
             $table->mediumText('body');
             $table->timestamps();
-            $table->foreign('photo_id')
-                ->references('id')
-                ->on('photos')
-                ->onDelete('cascade');
+            $table->foreign('photo_id')->references('id')->on('photos')->onDelete('cascade');
         });
     }
 

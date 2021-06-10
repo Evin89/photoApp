@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -13,7 +14,12 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all()->toJson();
+        $categories = json_decode($categories);
+
+        return view('categories.index', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -34,7 +40,15 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|unique:categories',
+        ]);
+
+        $category = Category::create([
+            'name' => $request->input('name')
+        ]);
+
+        return redirect('/categories');
     }
 
     /**
@@ -56,7 +70,10 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $category = Category::find($id)->first();
+
+        return view('/categories.edit')->with('category', $category);
     }
 
     /**
@@ -68,7 +85,13 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validated();
+
+        Category::where('id', $id)->update([
+            'name' => $request->input('name')
+        ]);
+
+        return redirect('/photos');
     }
 
     /**
@@ -79,6 +102,10 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id)->first();
+
+        $category->delete();
+
+        return redirect('/categories');
     }
 }

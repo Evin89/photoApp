@@ -17,9 +17,9 @@
 
                 <input type="text"
                     class="block shadow-5xl mb-10 py-2 w-80 italic"
-                    name="title"
-                    id="title"
-                    placeholder="Title...">
+                    name="name"
+                    id="name"
+                    placeholder="Category...">
 
                 <button type="submit" class="bg-green-500 block shadow-5xl mb-10 p-2 w-80 uppercase font-bold">
                     Submit

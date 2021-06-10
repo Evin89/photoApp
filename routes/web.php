@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PhotosController;
@@ -19,18 +20,18 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('/home');
 });
 
 // photos routes
 Route::resource('/photos', PhotosController::class);
 Route::resource('/comments', CommentsController::class);
 Route::resource('/categories', CategoriesController::class);
+Route::resource('/admin', AdminController::class);
 
 Route::get('/dashboard', function () { return view('dashboard');})->middleware(['auth'])->name('dashboard');
 require __DIR__.'/auth.php';
 
 Auth::routes();
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

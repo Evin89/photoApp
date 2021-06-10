@@ -8,6 +8,11 @@ use App\Http\Requests\CreateValidationRequest;
 
 class PhotosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +20,9 @@ class PhotosController extends Controller
      */
     public function index()
     {
-        $photos = Photo::all()->toJson();
-        $photos = json_decode($photos);
+        $photos = Photo::all();
+        // ->toJson();
+        // $photos = json_decode($photos);
 
         return view('photos.index', [
             'photos' => $photos
@@ -46,7 +52,6 @@ class PhotosController extends Controller
 
         $request->validate([
             'title' => 'required|string|unique:photos',
-            'userName' => 'required|string',
             'description' => 'required|string',
             'image' => 'required|mimes:png,jpg,jpeg|max:5048'
         ]);
@@ -57,7 +62,7 @@ class PhotosController extends Controller
 
         $photo = Photo::create([
             'title' => $request->input('title'),
-            'userName' => $request->input('userName'),
+            'user_id' => auth()->user()->id,
             'description' => $request->input('description'),
             'image_path' => $newImageName
         ]);

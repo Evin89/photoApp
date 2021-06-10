@@ -13,7 +13,7 @@ class Photo extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['title', 'userName', 'description', 'image_path'];
+    protected $fillable = ['title', 'user_id', 'description', 'image_path'];
 
     protected $hidden = [];
 
@@ -25,5 +25,10 @@ class Photo extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

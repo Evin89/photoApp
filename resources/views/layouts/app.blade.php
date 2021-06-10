@@ -12,11 +12,11 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-r from-gray-100 to-gray-200 min-h">
+
+<body class="bg-gray-100 flex flex-col min-h-screen font-sans leading-none antialiased">
 
     @include('layouts.header')
 
@@ -27,5 +27,6 @@
     </main>
 
     @include('layouts.footer')
+
 </body>
 </html>

@@ -29,12 +29,6 @@
 
                 <input type="text"
                     class="block shadow-5xl mb-10 py-2 w-80 italic"
-                    name="userName"
-                    id="userName"
-                    placeholder="User...">
-
-                <input type="text"
-                    class="block shadow-5xl mb-10 py-2 w-80 italic"
                     name="description"
                     id="description"
                     placeholder="Description...">
