@@ -67,18 +67,16 @@ class PhotosController extends Controller
 
         $newImageName = time() .  '-' . $request->title . '-' . $request->image->extension();
 
-        dd($request);
+        $request->image->move(public_path('images'), $newImageName);
 
-        // $request->image->move(public_path('images'), $newImageName);
+        $photo = Photo::create([
+            'title' => $request->input('title'),
+            'user_id' => auth()->user()->id,
+            'description' => $request->input('description'),
+            'image_path' => $newImageName
+        ]);
 
-        // $photo = Photo::create([
-        //     'title' => $request->input('title'),
-        //     'user_id' => auth()->user()->id,
-        //     'description' => $request->input('description'),
-        //     'image_path' => $newImageName
-        // ]);
-
-        // return redirect('/photos');
+        return redirect('/photos');
     }
 
     /**

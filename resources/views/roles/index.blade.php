@@ -1,45 +1,46 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row mb-12">
-    <h2>Post Photo</h2>
-</div>
-<div class="row mb-12">
-    <form>
-            <div class="form-outline">
-              <input type="text" id="form6Example1" class="form-control" />
-              <label class="form-label" for="form6Example1">Title</label>
-        </div>
 
-        <div class="form-outline">
-            <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
-            <label class="form-label" for="textAreaExample">Description</label>
-          </div>
-
-          <div class="form-outline">
-            <input type="text" id="form6Example1" class="form-control" />
-            <label class="form-label" for="form6Example1">Categories</label>
-      </div>
-
-        <div class="form-outline mb-4">
-            <label class="form-label" for="customFile">Default file input example</label>
-        <input type="file" class="form-control" id="customFile" />
-            </div>
-
-        <div class="form-check d-flex justify-content-center mb-4">
-          <input
-            class="form-check-input me-2"
-            type="checkbox"
-            value=""
-            id="form6Example8"
-            checked
-          />
-          <label class="form-check-label" for="form6Example8"> Do you certify this photo is yours?</label>
-        </div>
-
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-4">Upload photo</button>
-      </form>
+<div class="m-auto w-4/5 py-24">
+    <div class="text-center">
+        <h1 class="text-5xl uppercase bold">Roles</h1>
     </div>
+</div>
+
+<div class="m-auto w-4/5">
+
+    @foreach ($roles as $role)
+    <div class="">
+        <div class="m-auto">
+
+            {{-- @if (isset(Auth::user()->id) --}}
+            <div class="float-right">
+                <a
+                    class="border-b-2 pb-2 border-dotted italic text-gray-500"
+                    href="users/{{ $role->id }}/edit">Edit &rarr;</a>
+
+                    <form action="/users/{{ $role->id }}" method="POST">
+                        @csrf
+                        @method("DELETE")
+                        <button type="submit" class="border-b-2 pb-2 border-dotted italic text-red-500">
+                            Delete &rarr;
+                        </button>
+                    </form>
+            </div>
+            {{-- @endif --}}
+
+            <p class="text-lg text-grey-700 py-3">
+               <a href="/users/{{ $role->id }}">
+                   {{ $role->name }}
+               </a>
+            </p>
+
+            <hr class="mt-4 mb-8">
+        </div>
+    </div>
+    @endforeach
+
+</div>
 
 @endsection

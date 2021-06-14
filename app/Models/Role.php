@@ -9,16 +9,28 @@ class Role extends Model
 {
     use HasFactory;
 
-    // protected $table = 'roles';
+    protected $table = 'roles';
 
-    // protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
+
+    protected $fillable = ['name'];
 
 
     /**
      * The users that belong to the role.
      */
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
+    public function users() {
+
+        return $this->belongsToMany(User::class,'users_roles');
+
+     }
+
+         /**
+     * The permissions that belong to the role.
+     */
+    public function permissions() {
+
+        return $this->belongsToMany(Permission::class,'roles_permissions');
+
+     }
 }

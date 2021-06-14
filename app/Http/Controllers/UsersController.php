@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateValidationRequest;
-
 
 class UsersController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
     /**
@@ -22,8 +20,6 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::paginate(15);
-        // ->toJson();
-        // $photos = json_decode($photos);
 
         return view('users.index', [
             'users' => $users
@@ -57,18 +53,14 @@ class UsersController extends Controller
             'image' => 'required|mimes:png,jpg,jpeg|max:5048'
         ]);
 
-        $newImageName = time() .  '-' . $request->title . '-' . $request->image->extension();
 
-        $request->image->move(public_path('images'), $newImageName);
-
-        $photo = User::create([
+        $users = User::create([
             'title' => $request->input('title'),
             'user_id' => auth()->user()->id,
             'description' => $request->input('description'),
-            'image_path' => $newImageName
         ]);
 
-        return redirect('/photos');
+        return redirect('/users');
     }
 
     /**
@@ -94,9 +86,9 @@ class UsersController extends Controller
     public function edit($id)
     {
 
-        $photo = User::find($id)->first();
+        $user = User::find($id)->first();
 
-        return view('/photos.edit')->with('photo', $photo);
+        return view('/users.edit')->with('user', $user);
     }
 
     /**
@@ -106,7 +98,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateValidationRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $request->validated();
 
@@ -116,7 +108,7 @@ class UsersController extends Controller
             'description' => $request->input('description')
         ]);
 
-        return redirect('/photos');
+        return redirect('/users');
     }
 
     /**
@@ -127,11 +119,11 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $photo = User::find($id)->first();
+        $users = User::find($id)->first();
 
-        $photo->delete();
+        $users->delete();
 
-        return redirect('/photos');
+        return redirect('/user');
 
     }
 }

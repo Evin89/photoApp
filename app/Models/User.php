@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Permissions\HasPermissionsTrait;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasPermissionsTrait, HasFactory, Notifiable;
+
 
     protected $primaryKey = 'id';
 
@@ -60,5 +63,13 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Check if the user has the admin role.
+     */
+    public function isAdmin()
+    {
+        return $this->roles()->where('name', 'admin')->exists();
     }
 }

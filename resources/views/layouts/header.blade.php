@@ -1,14 +1,3 @@
-{{-- <header class="bg-blue-900 py-6">
-    <div class="container mx-auto flex justify-between items-center px-6">
-        <div>
-            <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-100 no-underline">
-                {{ config('app.name', 'Laravel') }}
-            </a>
-        </div>
-
-    </div>
-</header> --}}
-
 <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
     <div class="flex items-center flex-shrink-0 text-white mr-6">
       <span class="font-semibold text-xl tracking-tight">
@@ -42,7 +31,10 @@
                 <a class="no-underline hover:underline" href="{{ route('register') }}">{{ __('Register') }}</a>
             @endif
         @else
-            <span>{{ Auth::user()->name }}</span>
+
+            <a href="/users/{{ Auth::user()->id }}">{{ Auth::user()->name }}</a>
+
+            <a href="/roles">Roles</a>
 
             <a href="{{ route('logout') }}"
                class="no-underline hover:underline"

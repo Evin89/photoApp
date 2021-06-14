@@ -18,27 +18,26 @@
     <table class="table-fixed">
         <thead>
           <tr>
-            <th class="w-1/2 ...">Username</th>
-            <th class="w-1/4 ...">Roles</th>
-            <th class="w-1/4 ...">Views</th>
-          </tr>
+            <th class="w-1/4">Username</th>
+            <th class="w/1/4">E-mail</th>
+            <th class="w-2/4">Roles</th>
+        </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Intro to CSS</td>
-            <td>Adam</td>
-            <td>858</td>
-          </tr>
-          <tr class="bg-blue-200">
-            <td>A Long and Winding Tour of the History of UI Frameworks and Tools and the Impact on Design</td>
-            <td>Adam</td>
-            <td>112</td>
-          </tr>
-          <tr>
-            <td>Intro to JavaScript</td>
-            <td>Chris</td>
-            <td>1,280</td>
-          </tr>
+            @forelse ($users as $user)
+            <tr>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    @foreach ($user->roles as $role)
+                      {{  $role->name }}
+                    @endforeach
+                </td>
+            </tr>
+
+            @empty
+
+            @endforelse
         </tbody>
       </table>
 </div>

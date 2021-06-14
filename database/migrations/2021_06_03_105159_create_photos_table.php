@@ -17,7 +17,8 @@ class CreatePhotosTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->mediumText('description');
-            $table->integer('rating');
+            $table->boolean('isActive')->default(true);
+            $table->integer('rating')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

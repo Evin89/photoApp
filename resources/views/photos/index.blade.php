@@ -19,7 +19,19 @@
     <div class="w-5/6  py-10">
         <div class="m-auto">
 
-            @if (isset(Auth::user()->id) && Auth::user()->id == $photo->user_id)
+            @admin
+                <div>Admin!!!</div>
+            @endadmin
+
+            @member
+                <div>Member!!!</div>
+            @endmember
+
+            @role('developer')
+                <div>Hello developer!!</div>
+            @endrole
+
+            @if (isset(Auth::user()->id) && Auth::user()->id == $photo->user_id || (isset(Auth::user()->id) && Auth::user()->isAdmin))
             <div class="float-right">
                 <a
                     class="border-b-2 pb-2 border-dotted italic text-gray-500"
