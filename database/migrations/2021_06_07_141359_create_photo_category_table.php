@@ -14,8 +14,8 @@ class CreatePhotoCategoryTable extends Migration
     public function up()
     {
         Schema::create('category_photo', function (Blueprint $table) {
-            $table->integer('photo_id')->unsigned();
-            $table->integer('category_id')->unsigned();
+            $table->unsignedBigInteger('photo_id');
+            $table->unsignedBigInteger('category_id');
             $table->foreign('photo_id')->references('id')->on('photos')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });

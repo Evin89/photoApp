@@ -21,9 +21,9 @@
     @include('layouts.header')
 
     <main class="flex-grow">
-
+        <div class="app">
         @yield('content')
-
+    </div>
     </main>
 
     @include('layouts.footer')

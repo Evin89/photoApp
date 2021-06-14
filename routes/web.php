@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PhotosController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -28,6 +29,7 @@ Route::resource('/photos', PhotosController::class);
 Route::resource('/comments', CommentsController::class);
 Route::resource('/categories', CategoriesController::class);
 Route::resource('/admin', AdminController::class);
+Route::resource('/users', UsersController::class);
 
 Route::get('/dashboard', function () { return view('dashboard');})->middleware(['auth'])->name('dashboard');
 require __DIR__.'/auth.php';

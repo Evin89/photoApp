@@ -37,12 +37,12 @@
 
 
             <span class="uppercase text-blue-700 font-bold text-xs italic">
-                User: {{ $photo->user->name }}
+                By: {{ $photo->user->name }}
             </span>
 
             {{-- <h2 class="text-grey-700 text-5xl hover:text-gray-500"> --}}
                 <a href="/photos/{{ $photo->id }}">
-                    <img src="{{ asset('images/' . $photo->image_path) }}" alt="" class="w-3/4 mb-8 shadow-2xl ">
+                    <img src="{{ asset('images/' . $photo->image_path) }}" alt="" class="mb-8 shadow-2xl object-contain ">
                 </a>
             {{-- </h2> --}}
 
@@ -54,6 +54,8 @@
         </div>
     </div>
     @endforeach
+
+    {{ $photos->links() }}
 
 </div>
 

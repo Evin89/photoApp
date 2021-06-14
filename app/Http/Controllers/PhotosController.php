@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Photo;
 use App\Http\Requests\CreateValidationRequest;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class PhotosController extends Controller
 {
     public function __construct()
     {
+
         $this->middleware('auth', ['except' => ['index', 'show']]);
+
     }
 
     /**
@@ -20,13 +24,13 @@ class PhotosController extends Controller
      */
     public function index()
     {
-        $photos = Photo::all();
-        // ->toJson();
-        // $photos = json_decode($photos);
+
+        $photos = Photo::paginate(15);
 
         return view('photos.index', [
             'photos' => $photos
         ]);
+
     }
 
     /**
@@ -36,7 +40,13 @@ class PhotosController extends Controller
      */
     public function create()
     {
-        return view('photos.create');
+
+        $categories = Category::all();
+
+        return view('photos.create', [
+            'categories' => $categories
+        ]);
+
     }
 
     /**
@@ -48,26 +58,27 @@ class PhotosController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validated();
-
         $request->validate([
             'title' => 'required|string|unique:photos',
             'description' => 'required|string',
-            'image' => 'required|mimes:png,jpg,jpeg|max:5048'
+            'image' => 'required|mimes:png,jpg,jpeg,gif|max:5048',
+            'categories' => 'required'
         ]);
 
         $newImageName = time() .  '-' . $request->title . '-' . $request->image->extension();
 
-        $request->image->move(public_path('images'), $newImageName);
+        dd($request);
 
-        $photo = Photo::create([
-            'title' => $request->input('title'),
-            'user_id' => auth()->user()->id,
-            'description' => $request->input('description'),
-            'image_path' => $newImageName
-        ]);
+        // $request->image->move(public_path('images'), $newImageName);
 
-        return redirect('/photos');
+        // $photo = Photo::create([
+        //     'title' => $request->input('title'),
+        //     'user_id' => auth()->user()->id,
+        //     'description' => $request->input('description'),
+        //     'image_path' => $newImageName
+        // ]);
+
+        // return redirect('/photos');
     }
 
     /**
@@ -95,7 +106,14 @@ class PhotosController extends Controller
 
         $photo = Photo::find($id)->first();
 
+        $loggedInUserId = Auth::user()->id;
+        $photoUserId = $photo->user_id;
+
+        if ($loggedInUserId === $photoUserId){
         return view('/photos.edit')->with('photo', $photo);
+        } else {
+
+        }
     }
 
     /**

@@ -34,7 +34,7 @@
 
             <ul>
                 <p class="text-lg text-gray-700">Comments:</p>
-            @forelse ($photo->photoComments as $comment)
+            @forelse ($photo->comments as $comment)
             <li class="italic text-gray-600 px-1 py-2">
                 {{ $comment->body }}
             </li>

@@ -11,13 +11,11 @@ class Photo extends Model
 
     protected $table = 'photos';
 
-    protected $primaryKey = 'id';
-
-    protected $fillable = ['title', 'user_id', 'description', 'image_path'];
+    protected $fillable = ['title', 'user_id', 'description', 'image_path', 'rating'];
 
     protected $hidden = [];
 
-    public function photoComments()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }

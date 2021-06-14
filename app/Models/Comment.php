@@ -20,4 +20,10 @@ class Comment extends Model
     {
         return $this->belongsTo(Photo::class);
     }
+
+        // Comment belongs to a photo
+        public function user()
+        {
+            return $this->belongsTo(User::class);
+        }
 }

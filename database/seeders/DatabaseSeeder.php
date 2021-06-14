@@ -2,6 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Photo;
+use App\Models\Category;
+use App\Models\User;
+use App\Models\Comment;
+
+
+use Database\Factories\CategoryFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +20,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+
+        $this->call([
+            AdminSeeder::class,
+            UserSeeder::class,
+            CategorySeeder::class,
+            PhotoSeeder::class,
+            CommentSeeder::class,
+            CategoryPhotoSeeder::class
+        ]);
     }
 }

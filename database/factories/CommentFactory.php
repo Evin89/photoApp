@@ -2,18 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Photo;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use App\Models\Photo;
 
-class PhotoFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Photo::class;
+    protected $model = Comment::class;
 
     /**
      * Define the model's default state.
@@ -21,15 +22,12 @@ class PhotoFactory extends Factory
      * @return array
      */
     public function definition()
-
     {
         return [
-            'title' => $this->faker->word,
-            'description' => $this->faker->paragraph(),
+            'body' => $this->faker->paragraph(),
             'user_id' => User::all()->random()->id,
-            'image_path' =>'1623423807-Placeholder-png',
+            'photo_id' => Photo::all()->random()->id,
             'created_at' => now()
         ];
-
     }
 }

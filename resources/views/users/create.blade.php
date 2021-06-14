@@ -17,39 +17,21 @@
                 @csrf
 
                 <input type="file"
-                    class="block shadow-5xl mb-10 py-2 w-80 italic"
-                    name="image"
-                    id="image"
-                    {{-- required --}}
-                    >
+                class="block shadow-5xl mb-10 py-2 w-80 italic"
+                name="image"
+                id="image">
 
                 <input type="text"
                     class="block shadow-5xl mb-10 py-2 w-80 italic"
                     name="title"
                     id="title"
-                    placeholder="Title..."
-                    {{-- required --}}
-                    >
+                    placeholder="Title...">
 
                 <input type="text"
                     class="block shadow-5xl mb-10 py-2 w-80 italic"
                     name="description"
                     id="description"
-                    placeholder="Description..."
-                    {{-- required --}}
-                    >
-
-                <div class="m-auto">
-                    <label for="categories" class="block uppercase bold">Categories:</label>
-
-                    <select name="categories" id="categories" class="w-auto" multiple>
-                       @foreach ($categories as $category)
-                       <option value="{{ $category->name }}" class="block">{{ $category->name }}</option>
-
-                       @endforeach
-                    </select>
-                </div>
-
+                    placeholder="Description...">
 
                 <button type="submit" class="bg-green-500 block shadow-5xl mb-10 p-2 w-80 uppercase font-bold">
                     Submit
@@ -60,7 +42,7 @@
         </div>
 
         @if ($errors->any())
-            <div class="w-4/8 m-auto text-center alert alert-danger">
+            <div class="w-4/8 m-auto text-center">
                 @foreach ($errors->all() as $error)
                     <li class="text-red-500 list-none">
                         {{  $error }}
