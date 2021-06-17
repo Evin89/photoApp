@@ -51,4 +51,9 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function Roles(Type $var = null)
+    {
+        # code...
+    }
 }

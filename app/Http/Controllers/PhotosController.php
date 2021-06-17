@@ -41,6 +41,8 @@ class PhotosController extends Controller
     public function create()
     {
 
+        $this->authorize('create', Photo::class);
+
         $categories = Category::all();
 
         return view('photos.create', [
@@ -57,6 +59,8 @@ class PhotosController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->authorize('create', Photo::class);
 
         $request->validate([
             'title' => 'required|string|unique:photos',
@@ -102,6 +106,9 @@ class PhotosController extends Controller
     public function edit($id)
     {
 
+
+        $this->authorize('edit', $id);
+
         $photo = Photo::find($id)->first();
 
         $loggedInUserId = Auth::user()->id;
@@ -123,6 +130,10 @@ class PhotosController extends Controller
      */
     public function update(CreateValidationRequest $request, $id)
     {
+
+
+        $this->authorize('update', $id);
+
         $request->validated();
 
         Photo::where('id', $id)->update([
@@ -142,6 +153,8 @@ class PhotosController extends Controller
      */
     public function destroy($id)
     {
+
+        $this->authorize('delete', $id);
         $photo = Photo::find($id)->first();
 
         $photo->delete();

@@ -29,10 +29,19 @@ Route::get('/', function () {
 Route::resource('/photos', PhotosController::class);
 Route::resource('/comments', CommentsController::class);
 Route::resource('/categories', CategoriesController::class);
-Route::resource('/admin', AdminController::class);
 Route::resource('/users', UsersController::class);
+Route::resource('/admin', AdminController::class)->middleware('is_admin');
 
-Route::get('/roles', 'PermissionController@Permission');
+Route::group(['middleware' => 'auth'], function(){
+    Route::group([
+        'prefix' => 'admin',
+        'middleware' => 'isAdmin',
+        'as' => 'admin',
+    ], function (){
+
+    });
+});
+
 
 Route::get('/user/{id}/photos', [UsersController::class, 'photos']);
 

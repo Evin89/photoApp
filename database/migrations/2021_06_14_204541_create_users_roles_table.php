@@ -8,9 +8,9 @@ class CreateUsersRolesTable extends Migration
 {
     public function up()
     {
-        Schema::create('users_roles', function (Blueprint $table) {
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('role_id');
+        Schema::create('role_user', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('role_id');
 
          //FOREIGN KEY CONSTRAINTS
            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -23,6 +23,6 @@ class CreateUsersRolesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('users_roles');
+        Schema::dropIfExists('role_user');
     }
 }

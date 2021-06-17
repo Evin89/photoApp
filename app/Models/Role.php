@@ -24,13 +24,4 @@ class Role extends Model
         return $this->belongsToMany(User::class,'users_roles');
 
      }
-
-         /**
-     * The permissions that belong to the role.
-     */
-    public function permissions() {
-
-        return $this->belongsToMany(Permission::class,'roles_permissions');
-
-     }
-}
+    }

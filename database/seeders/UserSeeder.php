@@ -14,6 +14,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::factory()->count(25)->create();
+        $users = User::factory()->count(25)->roles()->create();
+
+        $users->attach()
     }
 }
