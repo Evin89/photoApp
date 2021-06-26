@@ -26,11 +26,24 @@ Route::get('/', function () {
     return view('/home');
 });
 
-Route::resource('/photos', PhotosController::class);
-Route::resource('/comments', CommentsController::class);
-Route::resource('/categories', CategoriesController::class);
-Route::resource('/users', UsersController::class);
-Route::resource('/admin', AdminController::class)->middleware('is_admin');
+Route::get(
+    '/photos/search',
+    [PhotosController::class, 'search']
+);
+
+Route::resources([
+    'photos'=> PhotosController::class,
+    'categories' => CategoriesController::class,
+    'users' => UsersController::class,
+    'comments' => CommentsController::class,
+]);
+
+// Route::resource('/comments', CommentsController::class);
+// Route::resource('/categories', CategoriesController::class);
+// Route::resource('/users', UsersController::class);
+// Route::resource('/roles', RolesController::class);
+
+Route::get('/admin', [AdminController::class, 'index'])->middleware('is_admin');
 
 Route::group(['middleware' => 'auth'], function(){
     Route::group([

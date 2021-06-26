@@ -7,13 +7,14 @@ use App\Models\Photo;
 use App\Http\Requests\CreateValidationRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PhotosController extends Controller
 {
     public function __construct()
     {
 
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show', 'search']]);
 
     }
 
@@ -162,4 +163,35 @@ class PhotosController extends Controller
         return redirect('/photos');
 
     }
+
+    public function Search(Request $request)
+    {
+        $search = $request->input('search');
+
+        echo $search;
+
+        // $photos = DB::table('photos')
+        //         ->join('categories', 'usecars.id', '=', 'contacts.user_id')
+        //         ->where('name', 'like', $search)
+        //         ->get();
+
+        $category_id = 1;
+
+        // $photos = Photo::whereHas('categories', function($query) use ($category_id){
+        //     $query->where('category_id', $category_id);
+        // })->get();
+
+        $photos = Photo::whereHas('categories', function($query) use ($search){
+            $query->where('name', 'LIKE', "%{$search}%");
+        })->paginate(15);
+
+        return view('photos.index', [
+            'photos' => $photos
+        ]);
+        
+
+        // echo "</br>";
+        // echo $photos;
+    }
+
 }

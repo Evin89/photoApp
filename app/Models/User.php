@@ -68,7 +68,7 @@ class User extends Authenticatable
     /**
      * Check if the user has the admin role.
      */
-    public function isAdmin()
+    public function getAdminAttribute() : bool
     {
         return $this->roles()->where('name', 'admin')->exists();
     }

@@ -14,6 +14,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
+
         $categories = Category::all()->toJson();
         $categories = json_decode($categories);
 
@@ -108,4 +109,6 @@ class CategoriesController extends Controller
 
         return redirect('/categories');
     }
+
+
 }
