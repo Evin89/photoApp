@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PhotosController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Routing\Router;
@@ -22,13 +23,19 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('/home');
-});
+Route::get(
+    '/',
+    [HomeController::class, 'index']
+);
 
 Route::get(
     '/photos/search',
     [PhotosController::class, 'search']
+);
+
+Route::patch(
+    '/photos/{id}',
+    [PhotosController::class, 'toggleStatus']
 );
 
 Route::resources([
@@ -38,29 +45,23 @@ Route::resources([
     'comments' => CommentsController::class,
 ]);
 
-// Route::resource('/comments', CommentsController::class);
-// Route::resource('/categories', CategoriesController::class);
-// Route::resource('/users', UsersController::class);
-// Route::resource('/roles', RolesController::class);
-
 Route::get('/admin', [AdminController::class, 'index'])->middleware('is_admin');
 
-Route::group(['middleware' => 'auth'], function(){
-    Route::group([
-        'prefix' => 'admin',
-        'middleware' => 'isAdmin',
-        'as' => 'admin',
-    ], function (){
+// Route::group(['middleware' => 'auth'], function(){
+//     Route::group([
+//         'prefix' => 'admin',
+//         'middleware' => 'isAdmin',
+//         'as' => 'admin',
+//     ], function (){
 
-    });
-});
+//     });
+// });
 
 
 Route::get('/user/{id}/photos', [UsersController::class, 'photos']);
 
-Route::get('/dashboard', function () { return view('dashboard');})->middleware(['auth'])->name('dashboard');
-require __DIR__.'/auth.php';
 
 Auth::routes();
+
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

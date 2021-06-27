@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller
 {
@@ -60,7 +62,19 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $category = Category::find($id);
+
+        $search = $category->name;
+
+        $photos = Photo::whereHas('categories', function($query) use ($search){
+            $query->where('name', 'LIKE', "%{$search}%");
+        })->orderBy('created_at','DESC')->paginate(7);
+
+        return view('categories.show', [
+            'category' => $category,
+            'photos' => $photos
+        ]);
     }
 
     /**
@@ -86,13 +100,12 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validated();
 
         Category::where('id', $id)->update([
             'name' => $request->input('name')
         ]);
 
-        return redirect('/photos');
+        return redirect('/categories');
     }
 
     /**

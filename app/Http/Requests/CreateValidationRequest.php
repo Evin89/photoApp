@@ -24,8 +24,7 @@ class CreateValidationRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|unique:photos',
-            'userName' => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string'
         ];
     }

@@ -7,25 +7,26 @@
         <h1 class="text-5xl uppercase bold">Categories</h1>
     </div>
 
-    @if (Auth::user())
+    @admin
     <div class="pt-10">
         <a href="/categories/create"
         class="border-b-2 pb-2 border-dotted italic text-gray-500">
     Add a new category &rarr;</a>
     </div>
-    @endif
+    @endadmin
 
     @foreach ($categories as $category)
     <div class="w-5/6  py-10">
         <div class="m-auto">
 
-            {{-- @if (isset(Auth::user()->id) && Auth::user()->id == $photo->user_id)
+             {{-- Check if the user_id from the photo is the same as the logged in user, or if the user is admin --}}
+             @if ( (isset(Auth::user()->id) && Auth::user()->getAdminAttribute()))
             <div class="float-right">
                 <a
                     class="border-b-2 pb-2 border-dotted italic text-gray-500"
-                    href="photos/{{ $category->id }}/edit">Edit &rarr;</a>
+                    href="categories/{{ $category->id }}/edit">Edit &rarr;</a>
 
-                    <form action="/photos/{{ $photo->id }}" method="POST">
+                    <form action="/categories/{{ $category->id }}" method="POST">
                         @csrf
                         @method("DELETE")
                         <button type="submit" class="border-b-2 pb-2 border-dotted italic text-red-500">
@@ -33,11 +34,11 @@
                         </button>
                     </form>
             </div>
-            @endif --}}
+            @endif
 
 
             <span class="uppercase text-blue-700 font-bold text-xs italic">
-                {{ $category->name}}
+                <a href="/categories/{{ $category->id }}">{{ $category->name}}</a>
             </span>
 
             <hr class="mt-4 mb-8">

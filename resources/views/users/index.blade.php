@@ -14,12 +14,13 @@
     <div class="">
         <div class="m-auto">
 
-            {{-- @if (isset(Auth::user()->id) --}}
+             {{-- Check if the user_id from the photo is the same as the logged in user, or if the user is admin --}}
+             @if (isset(Auth::user()->id) && Auth::user()->id == $user->id || (isset(Auth::user()->id) && Auth::user()->getAdminAttribute()))
             <div class="float-right">
                 <a
                     class="border-b-2 pb-2 border-dotted italic text-gray-500"
                     href="users/{{ $user->id }}/edit">Edit &rarr;</a>
-
+                    @if ((isset(Auth::user()->id) && Auth::user()->getAdminAttribute()))
                     <form action="/users/{{ $user->id }}" method="POST">
                         @csrf
                         @method("DELETE")
@@ -27,8 +28,9 @@
                             Delete &rarr;
                         </button>
                     </form>
+                    @endif
             </div>
-            {{-- @endif --}}
+            @endif
 
             <p class="text-lg text-grey-700 py-3">
                <a href="/users/{{ $user->id }}">

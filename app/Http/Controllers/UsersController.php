@@ -19,7 +19,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(15);
+        $users = User::paginate(7);
 
         return view('users.index', [
             'users' => $users
@@ -33,7 +33,6 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
     }
 
     /**
@@ -45,22 +44,6 @@ class UsersController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validated();
-
-        $request->validate([
-            'title' => 'required|string|unique:photos',
-            'description' => 'required|string',
-            'image' => 'required|mimes:png,jpg,jpeg|max:5048'
-        ]);
-
-
-        $users = User::create([
-            'title' => $request->input('title'),
-            'user_id' => auth()->user()->id,
-            'description' => $request->input('description'),
-        ]);
-
-        return redirect('/users');
     }
 
     /**
@@ -86,9 +69,13 @@ class UsersController extends Controller
     public function edit($id)
     {
 
-        $user = User::find($id)->first();
+        if (auth()->user()->id == $id  || auth()->user()->getAdminAttribute()){
+            $user = User::find($id);
 
         return view('/users.edit')->with('user', $user);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -100,15 +87,15 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validated();
+        if (auth()->user()->id == $id  || auth()->user()->getAdminAttribute()){
 
         User::where('id', $id)->update([
-            'title' => $request->input('title'),
-            'userName' => $request->input('userName'),
-            'description' => $request->input('description')
+            'name' => $request->input('name'),
+            'email' => $request->input('email')
         ]);
 
-        return redirect('/users');
+        return redirect('/users/'.$id);
+    }
     }
 
     /**

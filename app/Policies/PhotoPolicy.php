@@ -57,7 +57,7 @@ class PhotoPolicy
     {
 
         // If user is admin or logged in and the user_id of photo is same as user id
-        return $user->is_admin || ( auth()->check() &&$photo->user_id == auth()->id());
+        return $user->is_admin || ( auth()->check() && $photo->user_id == auth()->id());
     }
 
     /**

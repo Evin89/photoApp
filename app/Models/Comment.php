@@ -13,7 +13,10 @@ class Comment extends Model
 
     protected $primaryKey = "id";
 
-    protected $fillable = ['body', 'photo_id'];
+    protected $fillable = ['body', 'photo_id', 'user_id'];
+
+    protected $required = ['body', 'photo_id', 'user_id'];
+
 
     // Comment belongs to a photo
     public function photo()

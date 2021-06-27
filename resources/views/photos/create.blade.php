@@ -44,7 +44,7 @@
 
                     <select name="categories" id="categories" class="w-auto" multiple>
                        @foreach ($categories as $category)
-                       <option value="{{ $category->name }}" class="block">{{ $category->name }}</option>
+                       <option value="{{ $category->id }}" class="block">{{ $category->name }}</option>
 
                        @endforeach
                     </select>

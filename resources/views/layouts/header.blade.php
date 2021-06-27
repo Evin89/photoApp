@@ -34,7 +34,9 @@
 
             <a href="/users/{{ Auth::user()->id }}">{{ Auth::user()->name }}</a>
 
-            <a href="/roles">Roles</a>
+            @admin()
+            <a href="/admin">Admin Panel</a>
+            @endadmin
 
             <a href="{{ route('logout') }}"
                class="no-underline hover:underline"

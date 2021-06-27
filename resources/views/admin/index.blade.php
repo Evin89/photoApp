@@ -20,7 +20,7 @@
           <tr>
             <th class="w-1/4">Username</th>
             <th class="w/1/4">E-mail</th>
-            <th class="w-2/4">Roles</th>
+            <th class="w-1/4">Roles</th>
         </tr>
         </thead>
         <tbody>
@@ -40,6 +40,8 @@
             @endforelse
         </tbody>
       </table>
+
+      {{ $users ->links() }}
 </div>
 
 

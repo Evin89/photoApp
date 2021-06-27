@@ -40,13 +40,13 @@ class CommentsController extends Controller
 
         $comment = Comment::create([
             'body' => $request->input('body'),
-            'userName' => $request->input('userName'),
+            'user_id' => auth()->user()->id,
             'photo_id' => $request->input('photo_id')
         ]);
 
 
 
-        return redirect('/photos');
+        return redirect('/photos/'.$request->input('photo_id'));
     }
 
     /**
@@ -91,6 +91,13 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $comment = Comment::find($id);
+
+        if (auth()->user()->id == $comment->user_id  || auth()->user()->getAdminAttribute()){
+            $comment->delete();
+        }
+
+        return redirect('/photos');
     }
 }

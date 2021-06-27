@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\Photo;
 use App\Http\Requests\CreateValidationRequest;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Access\Response;
 
 class PhotosController extends Controller
 {
     public function __construct()
     {
 
-        $this->middleware('auth', ['except' => ['index', 'show', 'search']]);
+        // Only index, show and search are available for non-logged in users.
+        $this->middleware('auth', ['except' => ['index', 'show', 'search', ]]);
 
     }
 
@@ -26,7 +29,8 @@ class PhotosController extends Controller
     public function index()
     {
 
-        $photos = Photo::paginate(15);
+        // photos are paginted per 15.
+        $photos = Photo::orderBy('created_at', 'desc')->where('isActive', 1)->paginate(7);
 
         return view('photos.index', [
             'photos' => $photos
@@ -42,6 +46,7 @@ class PhotosController extends Controller
     public function create()
     {
 
+        // Authorize middleware checks of user is logged in.
         $this->authorize('create', Photo::class);
 
         $categories = Category::all();
@@ -61,8 +66,10 @@ class PhotosController extends Controller
     public function store(Request $request)
     {
 
+        // First middleware checks if the user is logged in.
         $this->authorize('create', Photo::class);
 
+        // Request gets validated.
         $request->validate([
             'title' => 'required|string|unique:photos',
             'description' => 'required|string',
@@ -81,6 +88,12 @@ class PhotosController extends Controller
             'image_path' => $newImageName
         ]);
 
+        $categories = $request->validate([
+            'categories' => 'required'
+        ]);
+
+        $photo->categories()->sync($categories);
+
         return redirect('/photos');
     }
 
@@ -95,7 +108,10 @@ class PhotosController extends Controller
 
         $photo = Photo::find($id);
 
-        return view('photos.show')->with('photo', $photo);
+        if ($photo->isActive = 1) {
+            return view('photos.show')->with('photo', $photo);
+        }
+
     }
 
     /**
@@ -107,18 +123,11 @@ class PhotosController extends Controller
     public function edit($id)
     {
 
+        $photo = Photo::find($id);
 
-        $this->authorize('edit', $id);
-
-        $photo = Photo::find($id)->first();
-
-        $loggedInUserId = Auth::user()->id;
-        $photoUserId = $photo->user_id;
-
-        if ($loggedInUserId === $photoUserId){
+        if (auth()->user()->id == $photo->user_id  || auth()->user()->getAdminAttribute()){
         return view('/photos.edit')->with('photo', $photo);
         } else {
-
         }
     }
 
@@ -132,18 +141,20 @@ class PhotosController extends Controller
     public function update(CreateValidationRequest $request, $id)
     {
 
+        $photo = Photo::find($id);
 
-        $this->authorize('update', $id);
+        if (auth()->user()->id == $photo->user_id  || auth()->user()->getAdminAttribute()){
 
-        $request->validated();
+            $request->validated();
 
-        Photo::where('id', $id)->update([
-            'title' => $request->input('title'),
-            'userName' => $request->input('userName'),
-            'description' => $request->input('description')
-        ]);
+            Photo::where('id', $id)->update([
+                'title' => $request->input('title'),
+                'description' => $request->input('description')
+            ]);
 
-        return redirect('/photos');
+            return redirect('/photos');
+        }
+
     }
 
     /**
@@ -155,43 +166,58 @@ class PhotosController extends Controller
     public function destroy($id)
     {
 
-        $this->authorize('delete', $id);
-        $photo = Photo::find($id)->first();
+        $photo = Photo::find($id);
 
-        $photo->delete();
+        if (auth()->user()->id == $photo->user_id  || auth()->user()->getAdminAttribute()){
+            $photo->delete();
+        }
 
         return redirect('/photos');
 
     }
 
+    /*
+     * Custom search function for searching for text in photo descriptions.
+     *
+     * * @param  Request $request
+    */
     public function Search(Request $request)
     {
         $search = $request->input('search');
 
-        echo $search;
-
-        // $photos = DB::table('photos')
-        //         ->join('categories', 'usecars.id', '=', 'contacts.user_id')
-        //         ->where('name', 'like', $search)
-        //         ->get();
-
-        $category_id = 1;
-
-        // $photos = Photo::whereHas('categories', function($query) use ($category_id){
-        //     $query->where('category_id', $category_id);
-        // })->get();
 
         $photos = Photo::whereHas('categories', function($query) use ($search){
             $query->where('name', 'LIKE', "%{$search}%");
-        })->paginate(15);
+        })->paginate(7);
 
         return view('photos.index', [
             'photos' => $photos
         ]);
-        
 
-        // echo "</br>";
-        // echo $photos;
+    }
+
+    public function toggleStatus($id)
+    {
+
+        $photo = Photo::find($id);
+
+        if (auth()->user()->id == $photo->user_id  || auth()->user()->getAdminAttribute()){
+
+            if ($photo->isActive == 1) {
+                Photo::where('id', $id)->update([
+                    'isActive' => false
+                ]);
+                return redirect('/photos/'.$id);
+
+            } else if ($photo->isActive == 0){
+                Photo::where('id', $id)->update([
+                    'isActive' => true
+                ]);
+                return redirect('/photos/'.$id);
+            }
+
+        }
+
     }
 
 }

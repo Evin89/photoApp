@@ -1,91 +1,41 @@
 @extends('layouts.app')
 
+
 @section('content')
 <div class="m-auto w-4/5 py-24">
     <div class="text-center">
-        <h1 class="text-5xl uppercase bold">{{ $photo->title }}</h1>
+        <h1 class="text-5xl uppercase bold">{{ $category->name }}</h1>
     </div>
 
-    <div class="py-10 text-center ">
+    @foreach ($photos as $photo)
+    <div class="w-5/6  py-10">
         <div class="m-auto">
 
             <span class="uppercase text-blue-700 font-bold text-xs italic">
-                User: {{ $photo->user_id }}
+                By: {{ $photo->user->name }}
             </span>
 
-            <h2 class="text-grey-700 text-5xl">
-                    {{ $photo->title }}
-            </h2>
+                <a href="/photos/{{ $photo->id }}">
+                    <img src="{{ asset('images/' . $photo->image_path) }}" alt="" class="mb-8 shadow-2xl object-contain w-1/4">
+                </a>
 
             <p class="text-lg text-grey-700 py-6">
                {{ $photo->description }}
             </p>
 
-            <ul>
-                <p class="text-lg text-gray-700">Categories:</p>
-            @forelse ($photo->categories as $category)
-            <li class="inline italic text-gray-600 px-1 py-2">
+            <p>@foreach ($photo->categories as $category)
                 {{ $category->name }}
-            </li>
+            @endforeach</p>
 
-            @empty
-
-            @endforelse
-
-            <ul>
-                <p class="text-lg text-gray-700">Comments:</p>
-            @forelse ($photo->photoComments as $comment)
-            <li class="italic text-gray-600 px-1 py-2">
-                {{ $comment->body }}
-            </li>
-
-            @empty
-
-            @endforelse
-            </ul>
-
-            <div class="m-auto w-4/8 py-6">
-                <div class="text-center">
-                    <h3 class="text-2xl uppercase text-bold">
-                       Write comment
-                    </h3>
-                </div>
-            </div>
-
-                <div class="flex justify-center pt-2">
-
-                    <form action="/comments"
-                        class="block" method="POST">
-                        @csrf
-
-                        <input type="text"
-                            class="block shadow-5xl mb-10 py-2 w-80 italic"
-                            name="userName"
-                            id="userName"
-                            placeholder="User...">
-
-                        <input type="text"
-                            class="block shadow-5xl mb-10 py-2 w-80 italic"
-                            name="body"
-                            id="body"
-                            placeholder="Comment...">
-
-                            <input type="hidden" name="photo_id" value="{{ $photo->id }}">
-
-                        <button type="submit" class="bg-green-500 block shadow-5xl mb-10 p-2 w-80 uppercase font-bold">
-                            Submit
-                        </button>
-
-                    </div>
-                    </form>
-
-
-            </div>
-
+            <p>Comments: {{ $photo->comments->count() }}</p>
 
             <hr class="mt-4 mb-8">
         </div>
     </div>
+    @endforeach
+
+    {{ $photos->links() }}
+
 </div>
 
 @endsection
